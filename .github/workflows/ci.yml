@@ -11,30 +11,30 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-      services:
-        postgres:
-          image: postgres:12-alpine
-          env:
-            POSTGRES_USER: ${{secrets.POSTGRES_USER}}
-            POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
-            POSTGRES_DB: ${{secrets.POSTGRES_DB}}
-          ports:
-            - 5432:5432
-          options: >-
-            --health-cmd pg_isready
-            --health-interval 10s
-            --health-timeout 5s
-            --health-retries 5
-      steps:
-        - uses: actions/checkout@v3
-        - name: User Node.js ${{matrix.node-version}}
-          uses: actions/setup-node@v1
-          with: node-version ${{matrix.node-version}}
-        - name: Install deps
-          run: npm ci
-        - name: Integration tests
-          run: |
-            npx prisma db push
-            npm test:integration
-          env:
-            DATABASE_URL: ${{secrets.DATABASE_URL}}
+    services:
+      postgres:
+        image: postgres:12-alpine
+        env:
+          POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: User Node.js ${{matrix.node-version}}
+        uses: actions/setup-node@v1
+        with: node-version ${{matrix.node-version}}
+      - name: Install deps
+        run: npm ci
+      - name: Integration tests
+        run: |
+          npx prisma db push
+          npm test:integration
+        env:
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
