@@ -36,6 +36,6 @@ jobs:
       - name: Integration tests
         run: |
           npx prisma db push
-          npm test:integration
+          npm run test:integration
         env:
           DATABASE_URL: ${{secrets.DATABASE_URL}}
