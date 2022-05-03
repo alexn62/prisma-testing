@@ -1,0 +1,42 @@
+{
+  "name": "prisma-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:integration": "cross-env NODE_ENV=test jest --testPathPattern=integration"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexn62/prisma-testing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexn62/prisma-testing/issues"
+  },
+  "homepage": "https://github.com/alexn62/prisma-testing#readme",
+  "devDependencies": {
+    "@types/jest": "^27.5.0",
+    "cross-env": "^7.0.3",
+    "jest": "^27.5.1",
+    "jest-mock-extended": "^2.0.5",
+    "prisma": "^3.13.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.13.0",
+    "ts-jest": "^27.1.4"
+  },
+  "type": "module",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "transform": {
+      "node_modules/variables/.+\\.(j|t)sx?$": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!variables/.*)"
+    ]
+  }
+}
