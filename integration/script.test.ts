@@ -1,9 +1,8 @@
 import { prisma } from '../script';
 import { app, server } from '../index';
 import request from 'supertest';
-import { Response } from 'express';
 describe('Prisma Tests', () => {
-  beforeEach(async () => {
+  afterEach(async () => {
     await prisma.user.deleteMany();
   });
   afterAll(async () => {
@@ -35,18 +34,17 @@ describe('Prisma Tests', () => {
         })
         .then(done);
     });
-    it('should respond to added user', (done) => {
-      prisma.user.create({ data: { email: 'test@test.com' } }).then((_) => {
-        request(app)
-          .get('/users')
-          .expect(201)
-          .expect('Content-Type', /json/)
-          .then((res) => {
-            const users = res.body.users;
-            expect(users.length).toEqual(1);
-          })
-          .then(done);
-      });
+    it('should respond to added user', async () => {
+      await prisma.user.create({ data: { email: 'test@test.com' } });
+      request(app)
+        .get('/users')
+        .expect(201)
+        .expect('Content-Type', /json/)
+        .then((res) => {
+          const users = res.body.users;
+          expect(users.length).toEqual(1);
+        })
+        .catch((e) => console.log(e));
     });
   });
 });
